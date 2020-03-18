@@ -6,7 +6,7 @@ This tool provides a nice header dropdown to quickly switch between locales. Loc
 
 It also provides a `Language` field which gives you the status of the translation on a specific resource.
 
-**NOTE** If you use *Spatie's Laravel Translatable* then use (Laravel Nova Locale Anywhere Tool)[https://github.com/slovenianGooner/locale-anywhere]
+**NOTE** If you use *Spatie's Laravel Translatable* then use [Laravel Nova Locale Anywhere Tool](https://github.com/slovenianGooner/locale-anywhere)
 
 ## Installation
 
@@ -34,18 +34,7 @@ public function tools()
 }
 ```
 
-### Define the field
 
-You can then define the field in the resource.
-
-```
-use Day4\SwitchLocale\Language;
-
-    Language::make(__('Language'))
-```
-
-![](/screens/formField.png)
-![](/screens/detailField.png)
 
 ### Dropdown
 
@@ -63,9 +52,26 @@ The package provides a switch for the languages that you have to insert into Nov
 
 ![](/screens/dropdown.png)
 
+### Resource status field
+
+You can then define the field in the resource.
+
+```
+use Day4\SwitchLocale\Language;
+
+    Language::make(__('Language'))
+```
+
+![](/screens/formField.png)
+![](/screens/detailField.png)
+
 ### Delete translation toolbar button
 
 The package provides a CustomDetailToolbar component that you can toggle via configuration. Optionally, you can also only grab the `<delete-toolbar-button>` from the package and paste it into your own custom detail toolbar.
 
 ![](/screens/toolbar.png)
 
+
+## Credits
+
+Originally forked from [slovenianGooner](https://github.com/slovenianGooner/locale-anywhere)
