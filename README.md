@@ -72,6 +72,108 @@ The package provides a CustomDetailToolbar component that you can toggle via con
 ![](/screens/toolbar.png)
 
 
+## Language Permissions
+
+If you want to allow users access to only certain languages this tool can also display which langauges they have access to.
+
+![](/screens/dropdownAccess.png)
+
+### Setup
+
+In order for this to work the user needs to have a `locale` property that returns an object of locale with boolean values for which the user has access to.
+
+```
+// User table migration
+
+$table->string('locale')->default('{}');
+```
+
+```
+// User Model app/User.php
+
+protected $casts = [
+    'email_verified_at' => 'datetime',
+    'locale' => 'array'
+];
+
+public function allowedLocale() {
+    return $this->locale[app()->getLocale()];
+}
+```
+
+```
+// User Nova Resource app/Nova/User.php
+
+use Laravel\Nova\Fields\BooleanGroup;
+use Day4\SwitchLocale\SwitchLocale;
+…
+
+    BooleanGroup::make(__('Allowed Locale'), 'locale')->options(SwitchLocale::getLocales()),
+```
+
+### Example Usage
+
+```
+// PostPolicy
+
+<?php
+
+namespace App\Policies;
+
+use App\Post;
+use App\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class PostPolicy
+{
+    use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can view any posts.
+     */
+    public function viewAny(User $user)
+    {
+        return true;
+    }
+
+    /**
+     * Determine whether the user can view the post.
+     */
+    public function view(User $user, Post $post)
+    {
+        return $post->status == 'published' || ($user && $user->id == $post->author_id);
+    }
+
+    /**
+     * Determine whether the user can create posts.
+     */
+    public function create(User $user)
+    {
+        return $user && $user->allowedLocale();
+    }
+
+    /**
+     * Determine whether the user can update the post.
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user && $user->allowedLocale();
+    }
+
+    /**
+     * Determine whether the user can update the post.
+     */
+    public function delete(User $user, Post $post)
+    {
+        return $user && $user->allowedLocale();
+    }
+}
+
+
+```
+
+**Note** You should probably have some other permissions and rules in place to limit users from giving them selves access to languages etc.
+
 ## Credits
 
 Originally forked from [slovenianGooner](https://github.com/slovenianGooner/locale-anywhere)

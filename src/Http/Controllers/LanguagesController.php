@@ -18,7 +18,10 @@ class LanguagesController extends Controller
 
     public function languages()
     {
-        return SwitchLocale::getLocales();
+        return response()->json([
+            'locales' => SwitchLocale::getLocales(),
+            'allowed' => optional(auth()->user())->locale
+        ]);
     }
 
     public function cacheLocale(Request $request)
@@ -28,11 +31,7 @@ class LanguagesController extends Controller
 
         Cache::forever($prefix.".locale", $locale);
         app()->setLocale($locale);
-        return response()->json([
-            'cache' => Cache::get($prefix.".locale"),
-            'prefix' => $prefix,
-            'local' => $locale
-        ])->header('X-Lang', $locale);
+        return $locale;
     }
 
     public function delete(Request $request)

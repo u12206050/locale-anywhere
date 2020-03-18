@@ -19,7 +19,7 @@ class Language extends Field
         $this->locale = cache()->has($prefix.".locale") ? cache()->get($prefix.".locale") : app()->getLocale();
         $this->withMeta([
             "locales" => SwitchLocale::getLocales(),
-            "locale" => $this->locale,
+            "locale" => $this->locale
         ]);
     }
 

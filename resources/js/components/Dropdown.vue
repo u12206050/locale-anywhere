@@ -26,7 +26,7 @@
           <a
             @click.prevent="switchLocale(locale)"
             class="block no-underline text-90 hover:bg-30 p-3 cursor-pointer"
-            >{{ language }} ({{ locale }})</a
+            >{{ language }} ({{ locale }}) <span v-if="allowed" class="float-right">{{ allowed[locale] ? '🟢' : '🔴' }}</span></a
           >
         </li>
       </ul>
@@ -36,14 +36,17 @@
 <script>
 export default {
   data: () => ({
-    locales: []
+    locales: [],
+    allowed: null
   }),
 
   mounted() {
     Nova.request()
       .get(`/nova-vendor/switch-locale/languages`)
       .then(response => {
-        this.locales = response.data
+        console.log(response.data)
+        this.locales = response.data.locales
+        this.allowed = response.data.allowed
       })
   },
 
