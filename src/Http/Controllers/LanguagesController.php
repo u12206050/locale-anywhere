@@ -18,9 +18,10 @@ class LanguagesController extends Controller
 
     public function languages()
     {
+        $locales = SwitchLocale::getLocales();
         return response()->json([
-            'locales' => SwitchLocale::getLocales(),
-            'allowed' => optional(auth()->user())->locale
+            'locales' => $locales,
+            'allowed' => optional(auth()->user())->allowedAllLocale() ? $locales : optional(auth()->user())->locale
         ]);
     }
 

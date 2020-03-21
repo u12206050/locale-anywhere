@@ -59,10 +59,11 @@ You can then define the field in the resource.
 ```
 use Day4\SwitchLocale\Language;
 
-    Language::make(__('Language'))
+    Language::make(__('Translation'))
 ```
 
 ![](/screens/formField.png)
+![](/screens/indexView.png)
 ![](/screens/detailField.png)
 
 ### Delete translation toolbar button
@@ -97,7 +98,11 @@ protected $casts = [
 ];
 
 public function allowedLocale() {
-    return $this->locale[app()->getLocale()];
+    return $this->allowedAllLocale() || $this->locale[app()->getLocale()];
+}
+
+public function allowedAllLocale() {
+    return $this->isAdmin(); // As an example, admin is allowed all locale
 }
 ```
 

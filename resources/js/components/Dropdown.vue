@@ -17,7 +17,7 @@
         </svg>
       </div>
 
-      {{ currentLocaleName }} ({{ currentLocale }})
+      {{ currentLocaleName }} {{ currentLocale | flag }}
     </dropdown-trigger>
 
     <dropdown-menu slot="menu" width="200" direction="rtl">
@@ -26,7 +26,7 @@
           <a
             @click.prevent="switchLocale(locale)"
             class="block no-underline text-90 hover:bg-30 p-3 cursor-pointer"
-            >{{ language }} ({{ locale }}) <span v-if="allowed" class="float-right">{{ allowed[locale] ? '🟢' : '🔴' }}</span></a
+            >{{ locale | flag }} {{ language }} <span v-if="allowed" class="float-right">{{ allowed[locale] ? '🟢' : '🔴' }}</span></a
           >
         </li>
       </ul>
@@ -34,6 +34,7 @@
   </dropdown>
 </template>
 <script>
+import Flag from '../flag.js'
 export default {
   data: () => ({
     locales: [],
@@ -61,7 +62,11 @@ export default {
         })
     }
   },
-
+  filters: {
+    flag(l) {
+      return Flag(l)
+    }
+  },
   computed: {
     currentLocale() {
       return window.config.locale ? window.config.locale : 'en'

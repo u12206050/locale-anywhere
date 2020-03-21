@@ -1,26 +1,26 @@
 <template>
 	<div>
 		<panel-item :field="field">
-			<div slot="value">{{ currentLocaleName }} ({{ field.locale }})</div>
+			<div slot="value">
+				<span v-for="l in field.value.locale" :key="l">
+					{{ l | flag }}
+				</span>
+			</div>
 		</panel-item>
 		<div class="flex border-b border-40">
 			<div class="w-1/4 py-4">
-				<h4 class="font-normal text-80">Is Translated?</h4>
+				<h4 class="font-normal text-80">{{ field.locale | flag }} {{ currentLocaleName }}?</h4>
 			</div>
 			<div class="w-3/4 py-4">
-				<span
-					class="inline-block rounded-full w-2 h-2 mr-1"
-					:class="{
-						'bg-success': field.value.isTranslated,
-						'bg-danger': !field.value.isTranslated
-					}"
-				/>
+				<span class="mr-1" >{{ field.value.isTranslated ? '🟢' : '🔴' }}</span>
 				<span>{{ label }}</span>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
+
+import Flag from '../flag.js'
 export default {
 	props: ["resource", "resourceName", "resourceId", "field"],
 	computed: {
@@ -40,6 +40,11 @@ export default {
 				? this.__("Yes")
 				: this.__("No");
 		}
-	}
+	},
+  filters: {
+    flag(l) {
+      return Flag(l)
+    }
+  }
 };
 </script>

@@ -9,7 +9,6 @@ class Language extends Field
 {
     public $component = "switch-locale";
     public $locale;
-    public $showOnIndex = false;
 
     public function __construct($name, $attribute = null, callable $resolveCallback = null)
     {
@@ -31,6 +30,7 @@ class Language extends Field
     public function resolveAttribute($resource, $attribute)
     {
         return [
+            "locale" => $resource->translations->pluck('locale')->toArray(),
             "isTranslated" => $resource->hasTranslation($this->locale),
             "value" => data_get($resource, str_replace('->', '.', $attribute))
         ];
