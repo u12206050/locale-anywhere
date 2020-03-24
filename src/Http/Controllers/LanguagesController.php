@@ -32,6 +32,10 @@ class LanguagesController extends Controller
 
         Cache::forever($prefix.".locale", $locale);
         app()->setLocale($locale);
+        // save the local into users table in database:
+        $user = auth()->user();
+        $user->locale = $locale;
+        $user->save();
         return $locale;
     }
 
