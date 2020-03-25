@@ -14,6 +14,9 @@ export default {
     flag(l) {
       return Flag(l)
     }
+  },
+  mounted() {
+    console.log(this.field)
   }
 }
 </script>

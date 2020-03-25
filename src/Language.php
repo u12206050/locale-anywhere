@@ -30,9 +30,11 @@ class Language extends Field
     public function resolveAttribute($resource, $attribute)
     {
         return [
-            "locale" => $resource->translations->pluck('locale')->toArray(),
+            "locale" => array_keys($resource->getTranslationsArray()),
             "isTranslated" => $resource->hasTranslation($this->locale),
-            "value" => data_get($resource, str_replace('->', '.', $attribute))
+            "value" => [
+                "locale" => $this->locale
+            ]
         ];
     }
 }
