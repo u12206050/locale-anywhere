@@ -45,7 +45,6 @@ export default {
     Nova.request()
       .get(`/nova-vendor/switch-locale/languages`)
       .then(response => {
-        console.log(response.data)
         this.locales = response.data.locales
         this.allowed = response.data.allowed
       })
