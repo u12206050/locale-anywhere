@@ -31,10 +31,7 @@ class Language extends Field
     {
         return [
             "locale" => array_keys($resource->getTranslationsArray()),
-            "isTranslated" => $resource->hasTranslation($this->locale),
-            "value" => [
-                "locale" => $this->locale
-            ]
+            "isTranslated" => $resource->hasTranslation($this->locale)
         ];
     }
 }
