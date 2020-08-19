@@ -12,6 +12,9 @@ It also provides a `Language` field which gives you the status of the translatio
 
 ```
 composer require day4/switch-locale
+
+php artisan vendor:publish --tag=public
+
 ```
 
 ## Usage

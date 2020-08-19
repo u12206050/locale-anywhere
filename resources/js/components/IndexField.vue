@@ -1,8 +1,6 @@
 <template>
-    <span class="flex">
-      <span v-for="l in field.value.locale" :key="l">
-        {{ l | flag }}
-      </span>
+    <span class="flex flex-wrap">
+      <span v-for="l in field.value.locale" :key="l" class="flag-icon m-1" :style="flag(l)"></span>
     </span>
 </template>
 
@@ -10,10 +8,8 @@
 import Flag from '../flag.js'
 export default {
   props: ['resourceName', 'field'],
-  filters: {
-    flag(l) {
-      return Flag(l)
-    }
+  methods: {
+    flag: Flag
   }
 }
 </script>

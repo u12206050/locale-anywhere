@@ -2,9 +2,9 @@ const flags = {aa:'ET',ab:'GE',abr:'GH',ace:'ID',ach:'UG',ada:'GH',ady:'RU',ae:'
 
 function Locale2Flag(locale) {
   if (!locale) return ''
-  var split = locale.toUpperCase().split(/-|_/);
-  var lang = split.shift();
-  var code = split.pop();
+  let split = locale.toUpperCase().split(/-|_/);
+  let lang = split.shift();
+  let code = split.pop();
 
   if (!/^[A-Z]{2}$/.test(code)) {
     code = flags[lang.toLowerCase()];
@@ -14,9 +14,14 @@ function Locale2Flag(locale) {
     return '';
   }
 
-  const a = String.fromCodePoint(code.codePointAt(0) - 0x41 + 0x1F1E6);
-  const b = String.fromCodePoint(code.codePointAt(1) - 0x41 + 0x1F1E6);
-  return a + b;
+  return `background-image: url(/switch-locale/flags/${code.toLowerCase()}.svg)`
+
+  /* Only supported on osx */
+  /*
+    const a = String.fromCodePoint(code.codePointAt(0) - 0x41 + 0x1F1E6);
+    const b = String.fromCodePoint(code.codePointAt(1) - 0x41 + 0x1F1E6);
+    return a + b;
+  */
 }
 
 export default Locale2Flag

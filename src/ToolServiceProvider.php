@@ -17,11 +17,13 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'switch-locale');
-
         $this->app->booted(function () {
             $this->routes();
         });
+
+        $this->publishes([
+            __DIR__.'/../resources/flags' => public_path('switch-locale/flags'),
+        ], 'public');
     }
 
     /**

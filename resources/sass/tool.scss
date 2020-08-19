@@ -1,1 +1,30 @@
-// Nova Tool CSS
+$flag-icon-size: 1.3em !default;
+
+.flag-icon {
+  background-color: white;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: $flag-icon-size;
+  height: (3 / 4) * $flag-icon-size;
+  line-height: $flag-icon-size;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.1);
+  border-radius: 2px;
+
+  &.flag-icon-squared {
+    width: $flag-icon-size;
+    height: $flag-icon-size;
+  }
+
+  &.flag-icon-larger {
+    width: 2 * $flag-icon-size;
+    height: 2 * $flag-icon-size;
+
+    &.flag-icon-squared {
+      width: 2 * $flag-icon-size;
+      height: 2 * $flag-icon-size;
+    }
+  }
+}

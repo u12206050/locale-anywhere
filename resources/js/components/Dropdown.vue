@@ -17,17 +17,17 @@
         </svg>
       </div>
 
-      {{ currentLocaleName }} {{ currentLocale | flag }}
+      {{ currentLocaleName }} <span class="flag-icon ml-2" :style="flag(currentLocale)"></span>
     </dropdown-trigger>
 
     <dropdown-menu slot="menu" width="200" direction="rtl">
       <ul class="list-reset">
         <li v-for="(language, locale) in locales" :key="locale" :data="locale">
-          <a
-            @click.prevent="switchLocale(locale)"
+          <a @click.prevent="switchLocale(locale)"
             class="block no-underline text-90 hover:bg-30 p-3 cursor-pointer"
-            >{{ locale | flag }} {{ language }} <span v-if="allowed" class="float-right">{{ allowed[locale] ? '🟢' : '🔴' }}</span></a
           >
+            <span class="flag-icon mr-2" :style="flag(locale)"></span> {{ language }} <span v-if="allowed" class="float-right">{{ allowed[locale] ? '🟢' : '🔴' }}</span>
+          </a>
         </li>
       </ul>
     </dropdown-menu>
@@ -59,12 +59,8 @@ export default {
         .then(response => {
           window.location.reload()
         })
-    }
-  },
-  filters: {
-    flag(l) {
-      return Flag(l)
-    }
+    },
+    flag: Flag
   },
   computed: {
     currentLocale() {
@@ -84,4 +80,3 @@ export default {
   }
 }
 </script>
-<style></style>
