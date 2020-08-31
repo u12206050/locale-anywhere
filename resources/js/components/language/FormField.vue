@@ -23,9 +23,7 @@
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
-              <path
-                d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
-              />
+              <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
             </svg>
           </div>
           <div>
@@ -44,12 +42,12 @@
             </p>
             <p class="text-sm" v-if="field.value.isTranslated">
               Item is translated in
-              <strong>{{ currentLocaleName }}</strong
+              <strong>{{ localeName }}</strong
               >. You are updating the translation.
             </p>
             <p class="text-sm" v-else>
               Item is not translated in
-              <strong>{{ currentLocaleName }}</strong
+              <strong>{{ localeName }}</strong
               >. You are creating a translation.
             </p>
           </div>
@@ -58,13 +56,14 @@
       <div v-else>
         <input
           class="w-full form-control form-input form-input-bordered"
-          :value="currentLocaleName + ' (' + field.locale + ')'"
+          :value="localeName + ' (' + field.locale + ')'"
           disabled="disabled"
         />
       </div>
     </template>
   </default-field>
 </template>
+
 <script>
 import { FormField, HandlesValidationErrors } from "laravel-nova";
 
@@ -90,16 +89,8 @@ export default {
   },
 
   computed: {
-    currentLocaleName() {
-      let name = null;
-
-      Object.keys(this.field.locales).forEach(locale => {
-        if (locale === this.field.locale) {
-          name = this.field.locales[locale];
-        }
-      });
-
-      return name;
+    localeName() {
+      return this.field.locales[this.field.locale]
     }
   }
 };

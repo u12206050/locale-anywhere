@@ -5,10 +5,9 @@ namespace Day4\SwitchLocale;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Language extends Field
+class SelectLocale extends Field
 {
-    public $component = "language";
-    public $locale;
+    public $component = "select-locale";
 
     public function __construct($name, $attribute = null, callable $resolveCallback = null)
     {
@@ -19,18 +18,5 @@ class Language extends Field
             "locales" => SwitchLocale::getLocales(),
             "locale" => $this->locale
         ]);
-    }
-
-    public function fill(NovaRequest $request, $model)
-    {
-        return;
-    }
-
-    public function resolveAttribute($resource, $attribute)
-    {
-        return [
-            "locale" => array_keys($resource->getTranslationsArray()),
-            "isTranslated" => $resource->hasTranslation($this->locale)
-        ];
     }
 }

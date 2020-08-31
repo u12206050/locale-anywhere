@@ -17,11 +17,11 @@
         </svg>
       </div>
 
-      {{ currentLocaleName }} <span class="flag-icon ml-2" :style="flag(currentLocale)"></span>
+      {{ localeName }} <span class="flag-icon ml-2" :style="flag(currentLocale)"></span>
     </dropdown-trigger>
 
     <dropdown-menu slot="menu" width="200" direction="rtl">
-      <ul class="list-reset">
+      <ul class="list-reset overflow-y-scroll" style="max-height: 50vh; min-height: 200px">
         <li v-for="(language, locale) in locales" :key="locale" :data="locale">
           <a @click.prevent="switchLocale(locale)"
             class="block no-underline text-90 hover:bg-30 p-3 cursor-pointer"
@@ -33,6 +33,7 @@
     </dropdown-menu>
   </dropdown>
 </template>
+
 <script>
 import Flag from '../flag.js'
 export default {
@@ -41,7 +42,7 @@ export default {
     allowed: null
   }),
 
-  mounted() {
+  mounted () {
     Nova.request()
       .get(`/nova-vendor/switch-locale/languages`)
       .then(response => {
@@ -63,19 +64,11 @@ export default {
     flag: Flag
   },
   computed: {
-    currentLocale() {
+    currentLocale () {
       return window.config.locale ? window.config.locale : 'en'
     },
-    currentLocaleName() {
-      let name = null
-
-      Object.keys(this.locales).forEach(locale => {
-        if (locale === window.config.locale) {
-          name = this.locales[locale]
-        }
-      })
-
-      return name
+    localeName () {
+      return this.locales[window.config.locale]
     }
   }
 }
