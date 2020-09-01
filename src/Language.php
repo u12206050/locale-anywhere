@@ -16,8 +16,7 @@ class Language extends Field
 
         $this->locale = app()->getLocale();
         $this->withMeta([
-            "locales" => SwitchLocale::getLocales(),
-            "locale" => $this->locale
+            "locales" => SwitchLocale::getLocales()
         ]);
     }
 
