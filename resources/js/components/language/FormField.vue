@@ -56,7 +56,7 @@
       <div v-else>
         <input
           class="w-full form-control form-input form-input-bordered"
-          :value="localeName + ' (' + field.locale + ')'"
+          :value="localeName + ' (' + field.current + ')'"
           disabled="disabled"
         />
       </div>
@@ -77,7 +77,7 @@ export default {
     * Set the initial, internal value for the field.
     */
     setInitialValue() {
-      this.value = this.field.locale;
+      this.value = this.field.current;
     },
 
     /**
@@ -90,7 +90,7 @@ export default {
 
   computed: {
     localeName() {
-      return this.field.locales[this.field.locale]
+      return this.field.locales[this.field.current]
     }
   }
 };

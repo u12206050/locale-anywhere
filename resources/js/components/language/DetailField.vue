@@ -7,7 +7,7 @@
     </panel-item>
     <div class="flex border-b border-40">
       <div class="w-1/4 py-4">
-        <h4 class="font-normal text-80"><span class="flag-icon" :style="flag(field.locale)"></span> {{ localeName }}?</h4>
+        <h4 class="font-normal text-80"><span class="flag-icon" :style="flag(field.current)"></span> {{ localeName }}?</h4>
       </div>
       <div class="w-3/4 py-4">
         <span class="mr-1" >{{ field.value.isTranslated ? '🟢' : '🔴' }}</span>
@@ -22,7 +22,7 @@ export default {
   props: ["resource", "resourceName", "resourceId", "field"],
   computed: {
     localeName() {
-      return this.field.locales[this.field.locale]
+      return this.field.locales[this.field.current]
     },
     label() {
       return this.field.value.isTranslated == true
