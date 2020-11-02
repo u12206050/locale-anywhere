@@ -41,21 +41,23 @@ class LanguagesController extends Controller
 
         $resourceClass = Nova::resourceForKey($request->get("resourceName"));
         if (!$resourceClass) {
-            abort("Missing resource class");
+            abort(403, "Missing resource class");
         }
 
         $modelClass = $resourceClass::$model;
         $resource = $modelClass::find($request->get("resourceId"));
         if (!$resource) {
-            abort("Missing resource");
+            abort(404, "Missing resource");
         }
 
-        // If translations count === 1 then forget the model completely
-        $translationsCount = count($resource->getTranslations(
-            $resource->getTranslatableAttributes()[0]
-        ));
+        if (! $resource->hasTranslation($locale)) {
+            return response()->json(["status" => false, "message" => "Resource not translated"]);
+        }
 
-        if ($translationsCount > 1 and $resource->forgetAllTranslations($locale)->save()) {
+        $translationsCount = $resource->translations()->count();
+
+        // If translations count === 1 then forget the model completely
+        if ($translationsCount > 1 && $resource->deleteTranslations($locale)) {
             return response()->json(["status" => true]);
         } elseif ($translationsCount === 1) {
             if (in_array(Actionable::class, class_uses_recursive($resource))) {
@@ -66,7 +68,7 @@ class LanguagesController extends Controller
 
             DB::table('action_events')->insert(
                 ActionEvent::forResourceDelete($request->user(), collect([$resource]))
-                            ->map->getAttributes()->all()
+                    ->map->getAttributes()->all()
             );
 
             return response()->json(["status" => true]);

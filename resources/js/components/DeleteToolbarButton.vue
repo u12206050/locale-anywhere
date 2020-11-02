@@ -57,19 +57,27 @@ export default {
 					}
 				)
 				.then(response => {
-					this.$toasted.show(
-						this.__("The translation was deleted!"),
-						{ type: "success" }
-					);
+					console.log(response)
+					if (response.data.status) {
+						this.$toasted.show(
+							this.__("The translation was deleted!"),
+							{ type: "success" }
+						);
 
-					this.$router.push({
-						name: "index",
-						params: { resourceName: this.resourceName }
-					});
-					return;
+						this.$router.push({
+							name: "index",
+							params: { resourceName: this.resourceName }
+						});
+						return;
+					} else {
+						this.$toasted.show(
+							this.__(response.data.message),
+							{ type: "warning" }
+						);
 
-					this.closeDeleteModal();
-					this.getResource();
+						this.closeDeleteModal();
+						this.getResource();
+					}
 				});
 		}
 	}
