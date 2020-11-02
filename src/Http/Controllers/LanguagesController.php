@@ -57,7 +57,8 @@ class LanguagesController extends Controller
         $translationsCount = $resource->translations()->count();
 
         // If translations count === 1 then forget the model completely
-        if ($translationsCount > 1 && $resource->deleteTranslations($locale)) {
+        if ($translationsCount > 1) {
+            $resource->deleteTranslations($locale);
             return response()->json(["status" => true]);
         } elseif ($translationsCount === 1) {
             if (in_array(Actionable::class, class_uses_recursive($resource))) {
@@ -74,6 +75,6 @@ class LanguagesController extends Controller
             return response()->json(["status" => true]);
         }
 
-        abort("Error saving");
+        abort(500, "Error saving");
     }
 }
