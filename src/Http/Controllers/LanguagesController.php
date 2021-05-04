@@ -32,7 +32,8 @@ class LanguagesController extends Controller
 
         Cache::forever($prefix.".locale", $locale);
         app()->setLocale($locale);
-        return $locale;
+
+        return response($locale)->withCookie(cookie()->forever('locale', $locale));
     }
 
     public function delete(Request $request)
