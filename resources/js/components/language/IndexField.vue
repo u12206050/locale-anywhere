@@ -28,7 +28,7 @@ export default {
   width: 102px;
   >.flower {
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
     white-space: nowrap;
     border-radius: 4px;
     background: white;
